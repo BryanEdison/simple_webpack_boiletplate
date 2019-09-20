@@ -1,6 +1,7 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const { rules: scssRules, plugin: extractPlugin } = require('build-tools-webpack-sass/extract');
 
-const htmlWebpackPlugin = new HtmlWebPackPlugin({
+const htmlPlugin = new HtmlWebPackPlugin({
   template: "./src/index.html",
   filename: "./index.html"
 });
@@ -15,25 +16,8 @@ module.exports = {
           loader: "babel-loader"
         }
       },
-      {
-        test: /\.css$/,
-        use: [
-          {
-            loader: "style-loader"
-          },
-          {
-            loader: "css-loader",
-            options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: "[name]_[local]_[hash:base64]",
-              sourceMap: true,
-              minimize: true
-            }
-          }
-        ]
-      }
+      ...scssRules
     ]
   },
-  plugins: [htmlWebpackPlugin]
+  plugins: [htmlPlugin]
 };
